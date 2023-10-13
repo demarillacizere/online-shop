@@ -33,7 +33,7 @@ abstract class A_Controller implements I_Controller
     protected function checkAccess(): void
     {
         if (!isset($_SESSION['user']) || empty($_SESSION['user'])) {
-            header('Location: /online-shop/login');
+            header("Location:".BASE_URL."login");
         }
     }
 

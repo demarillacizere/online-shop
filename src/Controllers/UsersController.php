@@ -2,7 +2,7 @@
 
 namespace OnlineShop\Controllers;
 
-use OnlineStoreProject\App\Router;
+use OnlineShop\App\Router;
 use OnlineShop\Entities\Users;
 
 class UsersController extends A_Controller
@@ -10,7 +10,6 @@ class UsersController extends A_Controller
 
     protected function indexAction(): void
     {
-        $this->checkAccess();
         echo $this->view->render('index', $this->dataToRender);
     }
 
@@ -26,8 +25,6 @@ class UsersController extends A_Controller
 
     protected function addAction(): void
     {
-        $this->checkAccess();
-
         $userData = $this->validateAndAssignUserData();
 
         if (!empty($userData)) {
@@ -35,14 +32,14 @@ class UsersController extends A_Controller
             $result = $users->insert($userData);
             if ($result === true) {
                 $_SESSION['successMessage'] = "Wow! You have created your account! Please use the login form now!";
-                header('Location: /login');
+                header("Location:".BASE_URL."login");
             } else {
                 $this->dataToRender['error'] = "Registration failed! Please try one more time!";
                 echo $this->view->render('registration', $this->dataToRender);
             }
         } else {
-            $_SESSION['errorMessage'] = "Please put a real email!";
-            header('Location: /register');
+            $_SESSION['errorMessage'] = "Please put a valid email!";
+            header("Location:".BASE_URL."register");
         }
     }
 
@@ -68,7 +65,7 @@ class UsersController extends A_Controller
         $userData = $user->findByEmail($userEmail);
         if (empty($userData)) {
             $_SESSION['errorMessage'] = "There is no user with such email!";
-            header('Location: /login');
+            header("Location:".BASE_URL."login");
         } else {
             $this->verifyPasswordAndRedirect($userData);
         }
@@ -78,13 +75,14 @@ class UsersController extends A_Controller
     {
         unset($_SESSION['user']);
         session_destroy();
-        header('Location: /login');
+        header("Location:".BASE_URL."login");
     }
 
     private function validateAndAssignUserData(): array
     {
         $userData = [];
         if ($userData[Users::DB_TABLE_FIELD_EMAIL] = filter_var($_POST[Users::DB_TABLE_FIELD_EMAIL], FILTER_VALIDATE_EMAIL)) {
+            $userData[Users::DB_TABLE_FIELD_FULL_NAME] = htmlentities($_POST[Users::DB_TABLE_FIELD_FULL_NAME]);
             $userData[Users::DB_TABLE_FIELD_PASSWORD] = htmlentities($_POST[Users::DB_TABLE_FIELD_PASSWORD]);
             $userData[Users::DB_TABLE_FIELD_ADDRESS] = htmlentities($_POST[Users::DB_TABLE_FIELD_ADDRESS]);
             $userData[Users::DB_TABLE_FIELD_PASSWORD] = password_hash($userData[Users::DB_TABLE_FIELD_PASSWORD], PASSWORD_DEFAULT);
@@ -100,11 +98,11 @@ class UsersController extends A_Controller
     private function verifyPasswordAndRedirect(array $userData): void
     {
         if (!password_verify($_POST['password'], $userData['password'])) {
-            $_SESSION['errorMessage'] = "The combination of email and password is not exist!";
-            header('Location: /login');
+            $_SESSION['errorMessage'] = "The combination of email and password does not exist!";
+            header("Location:".BASE_URL."login");
         } else {
             $_SESSION['user'] = $userData;
-            header('Location: /');
+            header("Location:".BASE_URL);
         }
     }
 
@@ -112,8 +110,8 @@ class UsersController extends A_Controller
     {
         $userEmail = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
         if (!$userEmail) {
-            $_SESSION['errorMessage'] = "Please put a real email!";
-            header('Location: /login');
+            $_SESSION['errorMessage'] = "Please put a valid email!";
+            header("Location:".BASE_URL."login");
         }
         return $userEmail;
     }

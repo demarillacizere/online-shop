@@ -5,12 +5,14 @@ namespace OnlineShop\Entities;
 class Users extends A_Entities
 {
     const DB_TABLE_NAME = 'users';
+    const DB_TABLE_FIELD_FULL_NAME = 'full_name';
     const DB_TABLE_FIELD_EMAIL = 'email';
     const DB_TABLE_FIELD_PASSWORD = 'password';
     const DB_TABLE_FIELD_ADDRESS = 'address';
 
     public int $id;
     public string $email;
+    public string $fullName;
     public string $password;
     public string $address;
 
@@ -113,7 +115,8 @@ class Users extends A_Entities
     public function insert(array $values): bool
     {
         $conn = self::$connection;
-        $stmt = $conn->prepare("INSERT INTO " . self::DB_TABLE_NAME . " (email, password, address) VALUES (:email, :pass, :address)");
+        $stmt = $conn->prepare("INSERT INTO " . self::DB_TABLE_NAME . " (full_name, email, password, address) VALUES (:full_name, :email, :pass, :address)");
+        $stmt->bindParam(":full_name", $values[self::DB_TABLE_FIELD_FULL_NAME]);
         $stmt->bindParam(":email", $values[self::DB_TABLE_FIELD_EMAIL]);
         $stmt->bindParam(":pass", $values[self::DB_TABLE_FIELD_PASSWORD]);
         $stmt->bindParam(":address", $values[self::DB_TABLE_FIELD_ADDRESS]);

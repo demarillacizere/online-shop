@@ -8,11 +8,14 @@
     }
     ?>
     <h1>Create your account</h1>
-    <form action="/register" method="post">
+    <form action="<?php echo BASE_URL.'register'?>" method="post">
+         <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="name" name="full_name">
+        </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" required aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <input type="email" class="form-control" id="email" name="email">
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
@@ -24,4 +27,5 @@
         </div>
         <button type="submit" class="btn btn-primary">Sign up</button>
     </form>
+    <div class="mt-3">Have an account already? <a href="<?php echo BASE_URL.'login'?>">Log In</a></div>
 </div>

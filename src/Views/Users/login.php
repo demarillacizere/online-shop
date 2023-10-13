@@ -15,7 +15,7 @@
         <?php
     }
     ?>
-    <form action="/online-shop/login" method="post">
+    <form action="<?php echo BASE_URL.'login'?>" method="post">
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input type="email" class="form-control" id="email" name="email" required aria-describedby="emailHelp">
@@ -27,4 +27,5 @@
         </div>
         <button type="submit" class="btn btn-primary">Log in</button>
     </form>
+    <div class="mt-3">Don't have an account yet? <a href="<?php echo BASE_URL.'register'?>">Register Here</a></div>
 </div>
