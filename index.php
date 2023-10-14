@@ -24,6 +24,7 @@ Router::add(BASE_URL.'register', 'post', $usersControllerNameSpace, 'add');
 Router::add(BASE_URL.'cart', 'get', $cartControllerNameSpace, 'index');
 Router::add(BASE_URL.'cart/remove/{id}', 'get', $cartControllerNameSpace, 'delete');
 Router::add(BASE_URL.'checkout', 'get', $cartControllerNameSpace, 'checkout');
+Router::add(BASE_URL.'placeOrder', 'get', $cartControllerNameSpace, 'placeOrder');
 Router::add(BASE_URL.'thankyou', 'get', $cartControllerNameSpace, 'thankyou');
 Router::add(BASE_URL.'notfound', 'get', $mainControllerNameSpace, 'pageNotFound');
 Router::add(BASE_URL.'products/all', 'get', $productsControllerNameSpace, 'allProducts');

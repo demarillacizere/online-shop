@@ -9,8 +9,6 @@ class Cart extends A_Entities
     const DB_TABLE_FIELD_USERID = 'user_id';
     const DB_TABLE_FIELD_PRODUCT = 'product_id';
     const DB_TABLE_FIELD_QNT = 'qnt';
-    const DB_TABLE_FIELD_PAYMENT_METHOD_ID = 'payment_method_id';
-    const DB_TABLE_FIELD_IS_PAYED = 'is_payed';
 
     public int $id;
     public int $userId;
@@ -148,7 +146,7 @@ class Cart extends A_Entities
     public function findAllByUserId(int $userId): array
     {
         $conn = self::$connection;
-        $stmt = $conn->prepare("SELECT * FROM " . self::DB_TABLE_NAME . " WHERE is_payed='0' AND user_id=" . $userId);
+        $stmt = $conn->prepare("SELECT * FROM " . self::DB_TABLE_NAME . " WHERE user_id=" . $userId);
         $result = [];
         $stmt->execute();
         foreach ($stmt as $row) {
@@ -160,7 +158,7 @@ class Cart extends A_Entities
     public function findAllByUserIdJoinWithProducts(int $userId): array
     {
         $conn = self::$connection;
-        $stmt = $conn->prepare("SELECT * FROM " . self::DB_TABLE_NAME . " JOIN products ON cart.product_id=products.id WHERE is_payed='0' AND user_id=" . $userId);
+        $stmt = $conn->prepare("SELECT * FROM " . self::DB_TABLE_NAME . " JOIN products ON cart.product_id=products.id WHERE user_id=" . $userId);
         $result = [];
         $stmt->execute();
         foreach ($stmt as $row) {

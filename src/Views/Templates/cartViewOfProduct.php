@@ -1,27 +1,29 @@
-<div class="col-12 p-3 mb-3 cart-item-hover">
-    <div class="row">
-        <div class="col-auto">
-            <img class="img-fluid" style="max-height: 100px" src="<?php echo $product['image']?>?random=<?php echo rand(100, 1000)?>" alt="..." />
-        </div>
-        <div class="col-6">
-            <div class="row">
-                <div class="col-12">
-                    <h5 class="fw-bolder"><?php echo $product['name']?></h5>
-                </div>
-                <div class="col-12">
-                    <?php echo $product['price']?>
-                </div>
+<tr>
+    <td class="align-middle"><img src="<?php echo $product['image'] ?>" alt="" style="width: 50px;">
+        <?php echo $product['name'] ?>
+    </td>
+    <td class="align-middle">$
+        <?php echo $product['price'] ?>
+    </td>
+    <td class="align-middle">
+        <div class="input-group quantity mx-auto" style="width: 100px;">
+            <div class="input-group-btn">
+                <button class="btn btn-sm btn-primary btn-minus">
+                    <i class="fa fa-minus"></i>
+                </button>
+            </div>
+            <input type="text" class="form-control form-control-sm bg-secondary text-center" value=<?php echo $product['qnt'] ?>>
+            <div class="input-group-btn">
+                <button class="btn btn-sm btn-primary btn-plus">
+                    <i class="fa fa-plus"></i>
+                </button>
             </div>
         </div>
-        <div class="col text-end">
-            <div class="row">
-                <div class="col-12 mb-3">
-                    <a class="btn btn-outline-dark mt-auto" href="/product/<?php echo $product['id']?>">View product</a>
-                </div>
-                <div class="col-12">
-                    <a class="btn btn-outline-danger mt-auto" href="/cart/remove/<?php echo $product['id']?>">Remove from cart</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    </td>
+    <td class="align-middle">
+        <?php echo '$ '.$product['price']*$product['qnt'] ?>
+    </td>
+    <td class="align-middle"><button class="btn btn-sm btn-primary"><a class="btn btn-outline-danger mt-auto"
+                href="<?php echo BASE_URL . 'cart/remove/' . $product['id']; ?>"><i
+                    class="fa fa-times"></i></a></button></td>
+</tr>
