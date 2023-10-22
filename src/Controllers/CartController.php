@@ -17,13 +17,30 @@ class CartController extends A_Controller
         $cart = new Cart();
         $cartItems = $cart->findAllByUserIdJoinWithProducts($_SESSION['user']['id']);
         $this->dataToRender['items'] = $cartItems;
-        var_dump($this->dataToRender['items']);
         echo $this->view->render('list', $this->dataToRender);
     }
 
     protected function editAction(): void
     {
-        // TODO: Implement editAction() method.
+        $this->checkAccess();
+        $id = Router::$idURLParameter;
+        $cart = new Cart();
+        $cartData[Cart::DB_TABLE_FIELD_QNT] = htmlentities($_POST['newQuantity']);
+        $cartData[Cart::DB_TABLE_FIELD_TOTALPRICE] = htmlentities($_POST['newTotal']);
+        var_dump($cartData);
+        $cart = new Cart();
+        $result = $cart->update($id, $cartData);
+        if ($result === true) {
+            $this->dataToRender['success'] = "Cart has been updated.";
+            // Construct a response
+            $response = array('success' => true, 'message' => 'Cart updated successfully');
+
+            // Send the response in JSON format
+            header('Content-Type: application/json');
+            echo json_encode($response);
+        } else {
+            $this->dataToRender['error'] = "Error updating the cart! Please try one more time!";
+        }
     }
 
     protected function deleteAction(): void
@@ -32,30 +49,31 @@ class CartController extends A_Controller
         $id = Router::$idURLParameter;
         $cart = new Cart();
         $result = $cart->deleteByProductId($id);
-        if($result === true) {
+        if ($result === true) {
             $this->dataToRender['success'] = "Product has been deleted from cart.";
-        } else{
+        } else {
             $this->dataToRender['error'] = "Deletion failed! Please try one more time!";
         }
-        header('Location:'.BASE_URL.'cart');
+        header('Location:' . BASE_URL . 'cart');
 
     }
 
     protected function addAction(): void
     {
         $this->checkAccess();
-        $cartData[Cart::DB_TABLE_FIELD_PRODUCT] = (int)(htmlentities($_POST['productId']));
+        $cartData[Cart::DB_TABLE_FIELD_PRODUCT] = (int) (htmlentities($_POST['productId']));
         $product = new Products();
         $productData = $product->findById($cartData[Cart::DB_TABLE_FIELD_PRODUCT]);
-        if(empty($productData)) {
+        if (empty($productData)) {
             header('Location: /notfound');
         }
 
         $cartData[Cart::DB_TABLE_FIELD_QNT] = htmlentities($_POST['quantity']);
+        $cartData[Cart::DB_TABLE_FIELD_TOTALPRICE] = htmlentities($_POST['quantity'] * $_POST['productPrice']);
         $cartData[Cart::DB_TABLE_FIELD_USERID] = $_SESSION['user']['id'];
         $cart = new Cart();
         $result = $cart->insert($cartData);
-        if($result === true) {
+        if ($result === true) {
             $this->dataToRender['success'] = "Product has been added to your cart.";
             $this->getNumberFromCart();
         } else {
@@ -71,7 +89,6 @@ class CartController extends A_Controller
         $cart = new Cart();
         $cartItems = $cart->findAllByUserIdJoinWithProducts($_SESSION['user']['id']);
         $this->dataToRender['items'] = $cartItems;
-        var_dump($this->dataToRender['items']);
         echo $this->view->render('checkout', $this->dataToRender);
 
     }
@@ -82,32 +99,27 @@ class CartController extends A_Controller
         $this->checkAccess();
         $cart = new Cart();
         $cartItems = $cart->findAllByUserId($_SESSION['user']['id']);
-        if(!empty($cartItems)) {
-            foreach ($cartItems as $item){
+        if (!empty($cartItems)) {
+            foreach ($cartItems as $item) {
                 $cartId = $item['id'];
                 $result &= $cart->updateCartItemAsChekedout($cartId);
             }
         }
 
-        if($result) {
-            header("Location:".BASE_URL." /thankyou");
+        if ($result) {
+            header("Location:" . BASE_URL . " /thankyou");
         } else {
             $this->dataToRender['error'] = "Something went wrong upon checkout. Please try again.";
             header("Location: /cart");
         }
     }
 
-    private function getRandomProducts(int $numberOfProducts): array
+    private function getRandomProductsShuffle(int $numberOfProducts): array
     {
-        $products = [];
         $product = new Products();
-        $maxId = $product->findMaximalId();
-        for($i = 0; $i < $numberOfProducts; $i++){
-            $randomId = rand(1, $maxId);
-            $products[] = $product->findById($randomId);
-        }
-
-        return $products;
+        $products = $product->findAll();
+        shuffle($products);
+        return array_slice($products, 0, $numberOfProducts);
     }
 
     protected function thankyouAction(): void

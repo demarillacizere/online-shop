@@ -8,7 +8,6 @@ class View extends \stdClass
     const VIEWS_TEMPLATES_NAVIGATION_PHP = "/../Views/templates/navigation.php";
     const VIEWS_TEMPLATES_FOOTER_PHP = "/../Views/templates/footer.php";
     const VIEWS_TEMPLATES_BANNER_PHP = "/../Views/templates/banner.php";
-    const VIEWS_TEMPLATES_BANNER_SMALL_PHP = "/../Views/templates/bannerSmall.php";
     const VIEWS_TEMPLATES_CONTAINER_PHP = "/../Views/templates/container.php";
     const PROPERTY_NOT_FOUND_ALERT = "{{PROPERTY NOT FOUND!!!}}";
     private string $actionNameForViews;
@@ -88,8 +87,6 @@ class View extends \stdClass
         include_once __DIR__ . self::VIEWS_TEMPLATES_NAVIGATION_PHP;
         if ($this->showBanner === true) {
             include_once __DIR__ . self::VIEWS_TEMPLATES_BANNER_PHP;
-        } else {
-            include_once __DIR__ . self::VIEWS_TEMPLATES_BANNER_SMALL_PHP;
         }
         include_once __DIR__ . self::VIEWS_TEMPLATES_CONTAINER_PHP;
         $header = ob_get_contents();

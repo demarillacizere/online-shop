@@ -9,11 +9,13 @@ class Cart extends A_Entities
     const DB_TABLE_FIELD_USERID = 'user_id';
     const DB_TABLE_FIELD_PRODUCT = 'product_id';
     const DB_TABLE_FIELD_QNT = 'qnt';
+    const DB_TABLE_FIELD_TOTALPRICE = 'total_price';
 
     public int $id;
     public int $userId;
     public int $productId;
     public int $qnt;
+    public int $totalPrice;
     public int $paymentMethodId;
     public bool $isPayed;
 
@@ -126,13 +128,26 @@ class Cart extends A_Entities
     public function insert(array $values): bool
     {
         $conn = self::$connection;
-        $stmt = $conn->prepare("INSERT INTO " . self::DB_TABLE_NAME . " (user_id, product_id, qnt) VALUES (:user_id, :product_id, :qnt)");
+        $stmt = $conn->prepare("INSERT INTO " . self::DB_TABLE_NAME . " (user_id, product_id, qnt, total_price) VALUES (:user_id, :product_id, :qnt, :total_price)");
         $stmt->bindParam(":user_id", $values[self::DB_TABLE_FIELD_USERID]);
         $stmt->bindParam(":product_id", $values[self::DB_TABLE_FIELD_PRODUCT]);
         $stmt->bindParam(":qnt", $values[self::DB_TABLE_FIELD_QNT]);
+        $stmt->bindParam(":total_price", $values[self::DB_TABLE_FIELD_TOTALPRICE]);
         $result = $stmt->execute();
         return $result;
     }
+
+    public function update(int $id, array $values): bool
+    {
+        $conn = self::$connection;
+        $stmt = $conn->prepare("UPDATE " . self::DB_TABLE_NAME . " SET qnt=:qnt, total_price=:total_price WHERE id=:id");
+        $stmt->bindParam(":qnt", $values[self::DB_TABLE_FIELD_QNT]);
+        $stmt->bindParam(":total_price", $values[self::DB_TABLE_FIELD_TOTALPRICE]);
+        $stmt->bindParam(":id", $id);
+        $result = $stmt->execute();
+        return $result;
+    }
+    
 
     public function updateCartItemAsChekedout(int $id): bool
     {

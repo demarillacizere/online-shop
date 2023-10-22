@@ -26,6 +26,7 @@
                         <input class="form-control text-center" name="quantity" id="inputQuantity" type="number"
                             value="1" min="1" max=<?php echo $data->product['quantity'] ?> style="max-width:4rem" />
                         <input type="hidden" value="<?php echo $data->product['id'] ?>" name="productId">
+                        <input type="hidden" value="<?php echo $data->product['price'] ?>" name="productPrice">
                         <button class="btn btn-outline-dark flex-shrink-0 mt-2" type="submit">
                             <i class="bi-cart-fill me-1"></i>
                             Add to cart
