@@ -4,6 +4,7 @@ namespace OnlineShop\Controllers;
 
 use OnlineShop\App\Router;
 use OnlineShop\Entities\Products;
+use OnlineShop\Entities\Categories;
 
 class ProductsController extends A_Controller
 {
@@ -13,10 +14,10 @@ class ProductsController extends A_Controller
         $product = new Products();
         $productData = $product->findById($id);
         if(empty($productData)) {
-            header('Location: /notfound');
+            header('Location: /online-shop/notfound');
         }
         $this->dataToRender['product'] = $productData;
-        //        $this->dataToRender['products'] = $this->getRandomProducts(4);
+        
         $this->dataToRender['products'] = $this->getRandomProductsShuffle(4);
         echo $this->view->render('index', $this->dataToRender);
     }

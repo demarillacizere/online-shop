@@ -5,7 +5,8 @@ namespace OnlineShop\Controllers;
 use OnlineShop\App\Router;
 use OnlineShop\Entities\Cart;
 use OnlineShop\Entities\Products;
-use OnlineShop\Controllers\ProductsControllerController;
+use OnlineShop\Entities\Orders;
+use OnlineShop\Entities\OrderItems;
 
 class CartController extends A_Controller
 {
@@ -31,15 +32,13 @@ class CartController extends A_Controller
         $cart = new Cart();
         $result = $cart->update($id, $cartData);
         if ($result === true) {
-            $this->dataToRender['success'] = "Cart has been updated.";
-            // Construct a response
             $response = array('success' => true, 'message' => 'Cart updated successfully');
-
-            // Send the response in JSON format
             header('Content-Type: application/json');
             echo json_encode($response);
         } else {
-            $this->dataToRender['error'] = "Error updating the cart! Please try one more time!";
+            $response = array('success' => false, 'message' => 'Error updating the cart');
+            header('Content-Type: application/json');
+            echo json_encode($response);
         }
     }
 
@@ -48,7 +47,7 @@ class CartController extends A_Controller
         $this->checkAccess();
         $id = Router::$idURLParameter;
         $cart = new Cart();
-        $result = $cart->deleteByProductId($id);
+        $result = $cart->deleteById($id);
         if ($result === true) {
             $this->dataToRender['success'] = "Product has been deleted from cart.";
         } else {
@@ -65,7 +64,7 @@ class CartController extends A_Controller
         $product = new Products();
         $productData = $product->findById($cartData[Cart::DB_TABLE_FIELD_PRODUCT]);
         if (empty($productData)) {
-            header('Location: /notfound');
+            header("Location:" . BASE_URL . " notfound");
         }
 
         $cartData[Cart::DB_TABLE_FIELD_QNT] = htmlentities($_POST['quantity']);
@@ -86,31 +85,56 @@ class CartController extends A_Controller
 
     protected function checkoutAction(): void
     {
+        $this->checkAccess();
         $cart = new Cart();
         $cartItems = $cart->findAllByUserIdJoinWithProducts($_SESSION['user']['id']);
         $this->dataToRender['items'] = $cartItems;
+        $cartTotal = 0;
+        foreach ($cartItems as $item) {
+            // Calculate the total for each item
+            $cartTotal = $cartTotal + $item['total_price'];
+        }
+        $this->dataToRender['cartTotal'] = $cartTotal;
         echo $this->view->render('checkout', $this->dataToRender);
 
     }
 
-    protected function placeOrderAction(): void
+    protected function placeorderAction(): void
     {
-        $result = true;
         $this->checkAccess();
         $cart = new Cart();
-        $cartItems = $cart->findAllByUserId($_SESSION['user']['id']);
+        $cartItems = $cart->findAllByUserIdJoinWithProducts($_SESSION['user']['id']);
         if (!empty($cartItems)) {
-            foreach ($cartItems as $item) {
-                $cartId = $item['id'];
-                $result &= $cart->updateCartItemAsChekedout($cartId);
-            }
-        }
+            $order = new Orders();
+            $orderData[Orders::DB_TABLE_FIELD_TOTALAMOUNT] = htmlentities($_POST['totalAmount']);
+            ;
+            $orderData[Orders::DB_TABLE_FIELD_USERID] = $_SESSION['user']['id'];
+            $result = $order->insert($orderData);
+            if ($result) {
+                foreach ($cartItems as $item) {
+                    $orderItem = new OrderItems;
+                    $orderItemData[OrderItems::DB_TABLE_FIELD_ORDERID] = $_SESSION['order_id'];
+                    $orderItemData[OrderItems::DB_TABLE_FIELD_PRODUCTID] = htmlentities($item['product_id']);
+                    $orderItemData[OrderItems::DB_TABLE_FIELD_QUANTITY] = htmlentities($item['quantity']);
+                    $orderItemData[OrderItems::DB_TABLE_FIELD_TOTALPRICE] = htmlentities($item['total_price']);
+                    if ($orderItem->insert($orderItemData)) {
+                        var_dump($item["id"]);
+                        $deleteResult = $cart->deleteById($item['id']);
+                        if ($deleteResult) {
+                            echo "Cart item deleted successfully";
+                        } else {
+                            echo "Cart item deletion failed";
+                        }
+                    }
 
-        if ($result) {
-            header("Location:" . BASE_URL . " /thankyou");
+                }
+                echo $this->view->render('thankyouPage', $this->dataToRender);
+
+            }
+
         } else {
             $this->dataToRender['error'] = "Something went wrong upon checkout. Please try again.";
-            header("Location: /cart");
+            header("Location:" . BASE_URL . "checkout");
         }
     }
 
