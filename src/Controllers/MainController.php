@@ -3,6 +3,7 @@
 namespace OnlineShop\Controllers;
 
 use OnlineShop\Entities\Products;
+use OnlineShop\Entities\Categories;
 use OnlineShop\Entities\Users;
 
 class MainController extends A_Controller
@@ -15,6 +16,9 @@ class MainController extends A_Controller
         $productList = $products->findAll();
         $productList = array_slice($productList, 0, self::NUMBER_OF_PRODUCTS_ON_THE_MAIN_PAGE);
         $this->dataToRender['products'] = $productList;
+        $categories =  new Categories();
+        $categoriesList = $categories->findAll();
+        $this->dataToRender['categories'] = $categoriesList;
         $this->dataToRender['showBanner'] = true;
         echo $this->view->render('index', $this->dataToRender);
     }

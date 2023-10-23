@@ -17,7 +17,6 @@ class ProductsController extends A_Controller
             header('Location: /online-shop/notfound');
         }
         $this->dataToRender['product'] = $productData;
-        
         $this->dataToRender['products'] = $this->getRandomProductsShuffle(4);
         echo $this->view->render('index', $this->dataToRender);
     }

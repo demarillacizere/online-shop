@@ -54,14 +54,7 @@ class Categories extends A_Entities
         return $this->name;
     }
 
-    public function findAll(): array
-    {
-        $conn = self::$connection;
-        $stmt = $conn->prepare("SELECT * FROM " . self::DB_TABLE_NAME);
-        $stmt->execute();
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        return $result;
-    }
+ 
 
     public function insert(array $values): bool
     {
