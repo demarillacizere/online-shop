@@ -22,7 +22,8 @@ This project is a simple online shopping platform built with PHP, OOP, MVC and M
 ## Getting Started
 
 1. Clone the repository: `git clone https://github.com/demarillacizere/online-shop.git`
-2. Import the SQL database from `online_shop.sql`
+2. Move the folder to the XAMPP htdocs folder.
+3. Import the SQL database from `database.sql`
 4. Run the project using a local web server (e.g., Apache) or a development environment (e.g., XAMPP)
 5. Access the project in your browser: `http://localhost/online-shop/`
 
