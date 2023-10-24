@@ -17,19 +17,20 @@ class Cart extends A_Entities
     public int $productId;
     public int $quantity;
     public int $totalPrice;
-    public int $paymentMethodId;
-    public bool $isPayed;
 
     public function findById(int $id): array
     {
-        // TODO: Implement findById() method.
-    }
+        $conn = self::$connection;
+        $stmt = $conn->prepare("SELECT * FROM " . self::DB_TABLE_NAME . " WHERE id=:id");
+        $stmt->bindParam(":id", $id);
+        $result = [];
+        $stmt->execute();
+        foreach ($stmt as $row) {
+            $result[] = $row;
+        }
 
-    public function findAllById(int $id): array
-    {
-        // TODO: Implement findAllById() method.
+        return $result;
     }
-
     /**
      * @return int
      */
@@ -94,38 +95,6 @@ class Cart extends A_Entities
         $this->quantity = $quantity;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPayed(): bool
-    {
-        return $this->isPayed;
-    }
-
-    /**
-     * @param bool $isPayed
-     */
-    public function setIsPayed(bool $isPayed): void
-    {
-        $this->isPayed = $isPayed;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPaymentMethodId(): int
-    {
-        return $this->paymentMethodId;
-    }
-
-    /**
-     * @param int $paymentMethodId
-     */
-    public function setPaymentMethodId(int $paymentMethodId): void
-    {
-        $this->paymentMethodId = $paymentMethodId;
-    }
-
     public function insert(array $values): bool
     {
         $conn = self::$connection;
@@ -148,17 +117,6 @@ class Cart extends A_Entities
         $result = $stmt->execute();
         return $result;
     }
-
-
-    public function updateCartItemAsChekedout(int $id): bool
-    {
-        $conn = self::$connection;
-        $stmt = $conn->prepare("UPDATE " . self::DB_TABLE_NAME . " SET is_payed='1' WHERE id=:id");
-        $stmt->bindParam(":id", $id);
-        $result = $stmt->execute();
-        return $result;
-    }
-
     public function findAllByUserId(int $userId): array
     {
         $conn = self::$connection;

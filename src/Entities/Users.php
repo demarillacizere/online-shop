@@ -41,12 +41,6 @@ class Users extends A_Entities
 
         return $result;
     }
-
-    public function findAllById(int $id): array
-    {
-        // TODO: Implement findAllById() method.
-    }
-
     /**
      * @return int
      */
@@ -110,8 +104,6 @@ class Users extends A_Entities
     {
         $this->address = $address;
     }
-
-
     public function insert(array $values): bool
     {
         $conn = self::$connection;

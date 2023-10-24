@@ -70,7 +70,7 @@ if (count($data->items) > 0) { ?>
                     }
                     data = response
                 }
-                
+
 
             });
         }

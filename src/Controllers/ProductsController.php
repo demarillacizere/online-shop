@@ -4,7 +4,6 @@ namespace OnlineShop\Controllers;
 
 use OnlineShop\App\Router;
 use OnlineShop\Entities\Products;
-use OnlineShop\Entities\Categories;
 
 class ProductsController extends A_Controller
 {

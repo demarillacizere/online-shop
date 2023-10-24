@@ -3,8 +3,6 @@
 namespace OnlineShop\Controllers;
 
 use OnlineShop\Entities\Products;
-use OnlineShop\Entities\Categories;
-use OnlineShop\Entities\Users;
 
 class MainController extends A_Controller
 {

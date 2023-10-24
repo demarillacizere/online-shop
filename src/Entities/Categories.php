@@ -15,24 +15,13 @@ class Categories extends A_Entities
         $stmt = $conn->prepare("SELECT * FROM " . self::DB_TABLE_NAME . " WHERE id=:id");
         $stmt->bindParam(":id", $id);
         $stmt->execute();
-        
-        // Use fetch to retrieve a single row
         $row = $stmt->fetch();
-        
-        // Check if a row was found
         if ($row) {
             return $row;
         } else {
-            // Return an empty array or an error message if no row was found
             return [];
         }
     }
-
-    public function findAllById(int $id): array
-    {
-        // TODO: Implement findAllById() method.
-    }
-
     /**
      * @return int
      */
@@ -56,8 +45,6 @@ class Categories extends A_Entities
     {
         return $this->name;
     }
-
- 
 
     public function insert(array $values): bool
     {

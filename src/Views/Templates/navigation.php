@@ -1,7 +1,5 @@
 <?php
 ?>
-
-<!-- Navigation-->
 <div class="row align-items-center py-3 px-xl-5">
     <div class="col-lg-3 d-none d-lg-block">
         <a href="/online-shop/" class="text-decoration-none">

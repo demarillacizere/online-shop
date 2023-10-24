@@ -15,12 +15,16 @@ class Orders extends A_Entities
     public int $isPayed;
     public function findById(int $id): array
     {
-        // TODO: Implement findById() method.
-    }
+        $conn = self::$connection;
+        $stmt = $conn->prepare("SELECT * FROM " . self::DB_TABLE_NAME . " WHERE id=:id");
+        $stmt->bindParam(":id", $id);
+        $result = [];
+        $stmt->execute();
+        foreach ($stmt as $row) {
+            $result[] = $row;
+        }
 
-    public function findAllById(int $id): array
-    {
-        // TODO: Implement findAllById() method.
+        return $result;
     }
 
     /**
