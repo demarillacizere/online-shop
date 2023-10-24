@@ -14,6 +14,7 @@ $mainControllerNameSpace = 'OnlineShop\\Controllers\\MainController';
 $cartControllerNameSpace = 'OnlineShop\\Controllers\\CartController';
 $productsControllerNameSpace = 'OnlineShop\\Controllers\\ProductsController';
 $usersControllerNameSpace = 'OnlineShop\\Controllers\\UsersController';
+$categoriesControllerNameSpace = 'OnlineShop\\Controllers\\CategoriesController';
 
 Router::add(BASE_URL, 'get', $mainControllerNameSpace, 'index');
 Router::add(BASE_URL.'login', 'get', $usersControllerNameSpace, 'login');
@@ -31,5 +32,6 @@ Router::add(BASE_URL.'notfound', 'get', $mainControllerNameSpace, 'pageNotFound'
 Router::add(BASE_URL.'products/all', 'get', $productsControllerNameSpace, 'allProducts');
 Router::add(BASE_URL.'product/{id}', 'get', $productsControllerNameSpace, 'index');
 Router::add(BASE_URL.'product/{id}', 'post', $cartControllerNameSpace, 'add');
+Router::add(BASE_URL.'category/{id}', 'get', $categoriesControllerNameSpace, 'index');
 
 Router::run();

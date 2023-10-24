@@ -118,13 +118,7 @@ class CartController extends A_Controller
                     $orderItemData[OrderItems::DB_TABLE_FIELD_QUANTITY] = htmlentities($item['quantity']);
                     $orderItemData[OrderItems::DB_TABLE_FIELD_TOTALPRICE] = htmlentities($item['total_price']);
                     if ($orderItem->insert($orderItemData)) {
-                        var_dump($item["id"]);
-                        $deleteResult = $cart->deleteById($item['id']);
-                        if ($deleteResult) {
-                            echo "Cart item deleted successfully";
-                        } else {
-                            echo "Cart item deletion failed";
-                        }
+                        $cart->deleteById($item['id']);
                     }
 
                 }

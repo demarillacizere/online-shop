@@ -1,4 +1,4 @@
-<div class="offset-2 col-6">
+<div class="offset-2 col-4">
     <?php
     if(isset($data->error)) { ?>
         <div class="alert alert-danger" role="alert">
@@ -15,11 +15,11 @@
         <?php
     }
     ?>
+    <h1 class="mb-5">Login</h1>
     <form action="<?php echo BASE_URL.'login'?>" method="post">
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input type="email" class="form-control" id="email" name="email" required aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>

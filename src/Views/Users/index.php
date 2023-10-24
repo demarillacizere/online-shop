@@ -7,7 +7,7 @@
         <?php
     }
     ?>
-    <h1>Create your account</h1>
+    <h1 class="mb-5">Create your account</h1>
     <form action="<?php echo BASE_URL.'register'?>" method="post">
          <div class="mb-3">
             <label for="name" class="form-label">Full Name</label>

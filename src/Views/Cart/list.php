@@ -1,13 +1,13 @@
 <?php
 if (count($data->items) > 0) { ?>
     <table class="table table-bordered text-center mb-0">
-        <thead class="bg-grey text-dark">
+        <thead class="bg-secondary text-dark">
             <tr>
-                <th>Products</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-                <th>Remove</th>
+                <th class="bg-secondary">Product</th>
+                <th class="bg-secondary">Price</th>
+                <th class="bg-secondary">Quantity</th>
+                <th class="bg-secondary">Total</th>
+                <th class="bg-secondary">Remove</th>
             </tr>
         </thead>
         <tbody class="align-middle">
@@ -21,7 +21,7 @@ if (count($data->items) > 0) { ?>
     </table>
     <div class="row mt-5">
         <div class="col-12 text-end">
-            <a class="btn btn-outline-success mt-auto" href="/online-shop/checkout">Checkout</a>
+            <a class="btn btn-primary mt-auto" href="/online-shop/checkout">Checkout</a>
         </div>
     </div>
     <?php

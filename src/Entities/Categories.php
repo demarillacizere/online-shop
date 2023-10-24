@@ -9,20 +9,23 @@ class Categories extends A_Entities
 
     public int $id;
     public string $name;
-
-
     public function findById(int $id): array
     {
         $conn = self::$connection;
         $stmt = $conn->prepare("SELECT * FROM " . self::DB_TABLE_NAME . " WHERE id=:id");
         $stmt->bindParam(":id", $id);
-        $result = [];
         $stmt->execute();
-        foreach ($stmt as $row) {
-            $result[] = $row;
+        
+        // Use fetch to retrieve a single row
+        $row = $stmt->fetch();
+        
+        // Check if a row was found
+        if ($row) {
+            return $row;
+        } else {
+            // Return an empty array or an error message if no row was found
+            return [];
         }
-
-        return $result;
     }
 
     public function findAllById(int $id): array

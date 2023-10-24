@@ -4,6 +4,7 @@ namespace OnlineShop\Controllers;
 
 use OnlineShop\App\View;
 use OnlineShop\Entities\Cart;
+use OnlineShop\Entities\Categories;
 
 abstract class A_Controller implements I_Controller
 {
@@ -20,6 +21,7 @@ abstract class A_Controller implements I_Controller
         $this->dataToRender["pageTitle"] = "Demy's Shop";
 
         $this->getNumberFromCart();
+        $this->getCategories();
     }
 
     abstract protected function indexAction(): void; //GET request
@@ -71,4 +73,12 @@ abstract class A_Controller implements I_Controller
         $numberInCart = count($cart->findAllByUserId($_SESSION['user']['id'] ?? 0));
         $this->dataToRender['cartQuantity'] = $numberInCart;
     }
+    protected function getCategories(): void
+    {
+        $categories =  new Categories();
+        $categoriesList = $categories->findAll();
+        $this->dataToRender['categories'] = $categoriesList;
+    }
+
+    
 }

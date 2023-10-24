@@ -1,42 +1,94 @@
-<section class="pb-2">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="<?php echo $data->product['image'] ?>"
-                    alt="..." /></div>
-            <div class="col-md-6">
-                <h1 class="display-5 fw-bolder">
-                    <?php echo $data->product['name'] ?>
-                </h1>
-                <div class="fs-5 mb-5">
-                    <span class="text-decoration-line-through">$
-                        <?php echo $data->product['price'] * 1.1 ?>
-                    </span>&ThickSpace;
-                    <span>$
-                        <?php echo $data->product['price'] ?>
-                    </span>
+<div class="row px-xl-5 pt-5">
+            <div class="col-lg-5 pb-5">
+                <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner border">
+                        <div class="carousel-item active">
+                            <img class="w-100 h-100" src="<?php echo $data->product['image'] ?>" alt="Image">
+                        </div>
+                    </div>
                 </div>
-                <p class="lead">
-                    <?php echo $data->product['description'] ?>
-                </p>
-                <div class="d-flex">
-                    <form action="/online-shop/product/<?php echo $data->product['id'] ?>" method="post">
-                        <p class="" style="color:red;">
+            </div>
+
+            <div class="col-lg-7 pb-5">
+                <h3 class="font-weight-semi-bold"><?php echo $data->product['name'] ?></h3>
+                <div class="d-flex mb-3">
+                    <div class="text-primary mr-2">
+                        <small class="fas fa-star"></small>
+                        <small class="fas fa-star"></small>
+                        <small class="fas fa-star"></small>
+                        <small class="fas fa-star-half-alt"></small>
+                        <small class="far fa-star"></small>
+                    </div>
+                    <small class="pt-1">(50 Reviews)</small>
+                </div>
+                <h3 class="font-weight-semi-bold mb-4">$<?php echo $data->product['price'] ?></h3>
+                <p class="mb-4"><?php echo $data->product['description'] ?></p>
+                <div class="d-flex mb-3">
+                    <p class="text-dark font-weight-medium mb-0 mr-3">Sizes:</p>
+                    <form>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-1" name="size">
+                            <label class="custom-control-label" for="size-1">XS</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-2" name="size">
+                            <label class="custom-control-label" for="size-2">S</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-3" name="size">
+                            <label class="custom-control-label" for="size-3">M</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-4" name="size">
+                            <label class="custom-control-label" for="size-4">L</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="size-5" name="size">
+                            <label class="custom-control-label" for="size-5">XL</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="d-flex mb-4">
+                    <p class="text-dark font-weight-medium mb-0 mr-3">Colors:</p>
+                    <form>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="color-1" name="color">
+                            <label class="custom-control-label" for="color-1">Black</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="color-2" name="color">
+                            <label class="custom-control-label" for="color-2">White</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="color-3" name="color">
+                            <label class="custom-control-label" for="color-3">Red</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="color-4" name="color">
+                            <label class="custom-control-label" for="color-4">Blue</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="color-5" name="color">
+                            <label class="custom-control-label" for="color-5">Green</label>
+                        </div>
+                    </form>
+                </div>
+                <p class="" style="color:red;">
                             <?php echo $data->product['quantity'] . " left in stock." ?>
                         </p>
+                <form action="/online-shop/product/<?php echo $data->product['id'] ?>" class="d-flex align-items-center mb-4 pt-2" method="post">
+                        
                         <input class="form-control text-center" name="quantity" id="inputQuantity" type="number"
                             value="1" min="1" max=<?php echo $data->product['quantity'] ?> style="max-width:4rem" />
                         <input type="hidden" value="<?php echo $data->product['id'] ?>" name="productId">
                         <input type="hidden" value="<?php echo $data->product['price'] ?>" name="productPrice">
-                        <button class="btn btn-outline-dark flex-shrink-0 mt-2" type="submit">
+                        <button class="btn btn-primary flex-shrink-0 mx-3" type="submit">
                             <i class="bi-cart-fill me-1"></i>
                             Add to cart
                         </button>
                     </form>
-                </div>
             </div>
         </div>
-    </div>
-</section>
 
 <script>
     function incrementQuantity() {

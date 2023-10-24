@@ -124,4 +124,15 @@ class Products extends A_Entities
 
         return $result['id'];
     }
+    public function findAllByCategoryId(int $catId): array
+    {
+        $conn = self::$connection;
+        $stmt = $conn->prepare("SELECT * FROM " . self::DB_TABLE_NAME . " WHERE category_id=" . $catId);
+        $result = [];
+        $stmt->execute();
+        foreach ($stmt as $row) {
+            $result[] = $row;
+        }
+        return $result;
+    }
 }
