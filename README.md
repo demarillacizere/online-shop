@@ -1,6 +1,6 @@
 # Online Shop
 
-This project is a simple online shopping platform built with PHP, OOP, MVC and MySQL. It allows users to browse and purchase products, manage their cart, and place orders.
+This project is an online shopping platform built with PHP, OOP, MVC and MySQL. It allows users to browse and purchase products, manage their cart, checkout and place orders.
 
 ## Features
 
